@@ -1,5 +1,4 @@
-#ifndef BILETE_LOC_H
-#define BILETE_LOC_H
+#pragma once
 
 #include "Sala.h"
 #include <iostream>
@@ -13,6 +12,8 @@ private:
     const int numar;
     Sala sala;
 public:
+    // constructor fara parametri
+    Loc();
     // constructur cu parametri
     Loc(int id, int numar, Sala sala);
 
@@ -54,7 +55,37 @@ public:
 		fout << "--Date despre sala--" << endl;
 		fout << sala;
 	}
+
+	// pentru scrierea << si citirea >> dintr-un fisier binar
+
+	friend ofstream& operator<<(ofstream& fout, const Loc& l) {
+		// id, numar, sala
+
+		fout.write((char*)&l.id, sizeof(l.id));
+
+		fout.write((const char*)&l.numar, sizeof(l.numar)); // const deoarece l.numar este const
+
+		fout << l.sala; // Supraincarcat in clasa Sala
+
+		return fout;
+	}
+
+	friend ifstream& operator>>(ifstream& fin, Loc& l) {
+		// citim id, numar, sala
+
+		fin.read((char*)&l.id, sizeof(l.id));
+
+		// pentru modificarea dupa apelul constructorului a const int numar
+		int *numar = const_cast<int *>(&l.numar);
+		int numarNou;
+		fin.read((char*)&numarNou, sizeof(numarNou));
+		*numar = numarNou;
+
+		fin >> l.sala;
+
+		return fin;
+	}
+
 };
 
 
-#endif //BILETE_LOC_H

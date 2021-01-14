@@ -1,5 +1,4 @@
-#ifndef BILETE_CLIENT_H
-#define BILETE_CLIENT_H
+
 
 #include <string>
 
@@ -10,7 +9,10 @@ private:
     int id;
     string nume;
 public:
-    // constructur cu parametri
+    // constructor fara parametri
+    Client() : id(-1) {}
+
+    // constructor cu parametri
     Client(int id, string nume);
 
     // operatori >> si <<
@@ -22,7 +24,7 @@ public:
     int operator[](int index);
 
     // +/-/*/\/
-	Client operator+(int i);
+    Client operator+(int i);
 
     // ++ sau -- cu cele doua forme
     Client operator++();
@@ -31,14 +33,17 @@ public:
 
     // cast catre un tip explicit sau implicit
     explicit operator char *() const;
+
     // !
     Client operator!();
 
     // </>/...
-    bool operator<(const Client& f);
-    bool operator<=(const Client& f);
+    bool operator<(const Client &f);
+
+    bool operator<=(const Client &f);
+
     // ==
-    bool operator==(const Client& f);
+    bool operator==(const Client &f);
 
     // gettere si settere (toti setter-ii vor contine validari)
 
@@ -46,4 +51,3 @@ public:
 };
 
 
-#endif //BILETE_CLIENT_H

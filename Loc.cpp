@@ -37,8 +37,7 @@ ostream &operator<<(ostream &out, const Loc &f) {
 }
 
 int Loc::operator[](int index) {
-    return 0;// TODO change?
-}
+    return 0;}
 
 Loc Loc::operator+(int i)
 {
@@ -46,13 +45,11 @@ Loc Loc::operator+(int i)
 }
 
 Loc Loc::operator++() {
-    // TODO change?
-    return *this;
+        return *this;
 }
 
 Loc Loc::operator++(int) {
-    // TODO change?
-    return *this;
+        return *this;
 }
 
 Loc::operator char *() const { // explicit
@@ -90,6 +87,10 @@ bool Loc::operator==(const Loc &f) {
     return this->id == f.id &&
            this->numar == f.numar &&
            this->sala == f.sala;
+}
+
+Loc::Loc() : id(0), numar(-1), sala() {
+
 }
 
 // gettere si settere (toti setter-ii vor contine validari)

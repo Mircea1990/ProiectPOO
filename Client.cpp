@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 
+#include <cstring>
+
+
 #include "Client.h"
 #include "util.h"
 
@@ -34,8 +37,7 @@ ostream &operator<<(ostream &out, const Client &f) {
 
 int Client::operator[](int index) {
     return 0;
-    // TODO change?
-}
+    }
 
 Client Client::operator+(int i)
 {
@@ -43,13 +45,11 @@ Client Client::operator+(int i)
 }
 
 Client Client::operator++() {
-    // TODO change?
-    return *this;
+        return *this;
 }
 
 Client Client::operator++(int) {
-    // TODO change?
-    return *this;
+        return *this;
 }
 
 Client::operator char *() const {
@@ -66,12 +66,10 @@ Client::operator char *() const {
 	strcat_s(s, maxLen, " }");
 
 
-	return s; // TODO return a char* for the whole object
-}
+	return s; }
 
 Client Client::operator!() {
-    return *this; // TODO change?
-}
+    return *this; }
 
 bool Client::operator<(const Client &f) {
     return this->nume < f.nume;

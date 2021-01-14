@@ -1,6 +1,4 @@
-#ifndef BILETE_UTIL_H
-#define BILETE_UTIL_H
+#pragma once
 
 const char *intToString(int num);
 
-#endif //BILETE_UTIL_H

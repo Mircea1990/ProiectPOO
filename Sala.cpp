@@ -1,7 +1,10 @@
+#pragma once
+
 #include "Sala.h"
 
-#pragma once
 #include "util.h"
+
+Sala::Sala() : id(-1), numarLocuri(0), numarLocuriLibere(0), locuriLibere(nullptr) {}
 
 Sala::Sala(int id, int numarLocuri) {
     this->id = id;
@@ -32,7 +35,7 @@ Sala::Sala(int id, int numarLocuri, int numarLocuriLibere, const int *locuriLibe
 Sala::Sala(const Sala &f) : Sala(f.id, f.numarLocuri, f.numarLocuriLibere, f.locuriLibere) {}
 
 Sala::~Sala() {
-    if (this->locuriLibere) {
+    if (this->locuriLibere != nullptr) {
         delete[]this->locuriLibere;
     }
 }
@@ -110,8 +113,7 @@ ostream &operator<<(ostream &out, const Sala &f) {
 
 Sala Sala::operator++() {
     // adaugam un loc nou (neocupat)
-    // TODO test if esteOcupat was allocated
-    int *vechi = this->locuriLibere;
+        int *vechi = this->locuriLibere;
     this->numarLocuri++;
     this->numarLocuriLibere++;
 
@@ -128,8 +130,7 @@ Sala Sala::operator++(int) {
     Sala precedent = *this;
 
     // adaugam un loc nou (neocupat)
-    // TODO test if este Ocupat was allocated
-    int *vechi = this->locuriLibere;
+        int *vechi = this->locuriLibere;
     this->numarLocuri++;
     this->numarLocuriLibere++;
 
@@ -145,40 +146,36 @@ Sala Sala::operator++(int) {
 
 Sala Sala::operator+(int extraMinutes) {
     Sala nou = *this;
-    // TODO change?
-    return nou;
+        return nou;
 }
 
 Sala::operator char *() const { // explicit
-	const int maxLen = 1000;
-	char *s = new char[maxLen + 1];
+    const int maxLen = 1000;
+    char *s = new char[maxLen + 1];
 
-	strcpy_s(s, maxLen, "Sala { id=");
-	strcat_s(s, maxLen, intToString(this->id));
+    strcpy_s(s, maxLen, "Sala { id=");
+    strcat_s(s, maxLen, intToString(this->id));
 
-	strcat_s(s, maxLen, ", numarLocuri=");
-	strcat_s(s, maxLen, intToString(this->numarLocuri));
+    strcat_s(s, maxLen, ", numarLocuri=");
+    strcat_s(s, maxLen, intToString(this->numarLocuri));
 
-	strcat_s(s, maxLen, ", numarLocuriLibere=");
-	strcat_s(s, maxLen, intToString(this->numarLocuriLibere));
+    strcat_s(s, maxLen, ", numarLocuriLibere=");
+    strcat_s(s, maxLen, intToString(this->numarLocuriLibere));
 
-	strcat_s(s, maxLen, ", locuriLibere=[ ");
-	for (int i = 0; i < this->numarLocuriLibere; i++)
-	{
-		strcat_s(s, maxLen, intToString(this->locuriLibere[i]));
-		strcat_s(s, maxLen, " ");
-	}
-	strcat_s(s, maxLen, "]");
+    strcat_s(s, maxLen, ", locuriLibere=[ ");
+    for (int i = 0; i < this->numarLocuriLibere; i++) {
+        strcat_s(s, maxLen, intToString(this->locuriLibere[i]));
+        strcat_s(s, maxLen, " ");
+    }
+    strcat_s(s, maxLen, "]");
 
-	strcat_s(s, maxLen, " }");
+    strcat_s(s, maxLen, " }");
 
 
-    return s; // TODO return a char* for the whole object
-}
+    return s; }
 
-Sala Sala::operator!()
-{
-	return *this;
+Sala Sala::operator!() {
+    return *this;
 }
 
 bool Sala::operator<(const Sala &f) {
@@ -205,3 +202,5 @@ bool Sala::operator==(const Sala &f) {
 
     return true;
 }
+
+

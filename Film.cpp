@@ -2,6 +2,8 @@
 #include "Film.h"
 #include "util.h"
 
+using namespace std;
+
 Film::Film(const Film &f) : Film(f.id, f.nume, f.minutes) {}
 
 Film::Film(int id, const char *nume, int minutes) {
@@ -100,8 +102,16 @@ bool Film::operator<=(const Film &f) {
 
 bool Film::operator==(const Film &f) {
     return this->id == f.id &&
-           strcmp(this->nume, f.nume) == 0 && // TODO poate da eroare la null?
-           this->minutes == f.minutes;
+           strcmp(this->nume, f.nume) == 0 &&            this->minutes == f.minutes;
+}
+
+int Film::getMinutes() const {
+	return this->minutes;
+}
+
+string Film::getNume() const
+{
+	return nume;
 }
 
 Film Film::operator=(const Film &f) {
@@ -128,7 +138,8 @@ Film::~Film() {
     }
 }
 
-int Film::getMinutes() {
-    return this->minutes;
+Film::Film() : id(0), minutes(0)  {
+    nume = new char[2];
+    strcpy_s(nume, 2, "");
 }
 

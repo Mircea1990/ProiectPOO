@@ -26,8 +26,7 @@ istream &operator>>(istream &in, Bilet &b) {
 }
 
 int Bilet::operator[](int index) {
-    return 0; // TODO change?
-}
+    return 0; }
 
 Bilet Bilet::operator+(int i)
 {
@@ -35,19 +34,16 @@ Bilet Bilet::operator+(int i)
 }
 
 Bilet Bilet::operator++() {
-    // TODO change this?
-    return *this;
+        return *this;
 }
 
 Bilet Bilet::operator++(int) {
     Bilet old = *this;
-    // TODO change?
-    return old;
+        return old;
 }
 
 Bilet Bilet::operator!() {
-    return *this; // TODO change?
-}
+    return *this; }
 
 bool Bilet::operator<=(int minutes) {
     return this->film.getMinutes() < minutes;
@@ -58,7 +54,6 @@ bool Bilet::operator==(const Bilet &b) {
            this->loc == b.loc;
 }
 
-// TODO nu il vede?
 Bilet::operator char *() {
 	const int maxLen = 1000;
     char *s = new char[maxLen];
@@ -68,3 +63,6 @@ Bilet::operator char *() {
 	strcat_s(s, maxLen, " }");
     return s;
 }
+
+// campul static
+int Bilet::bileteProcesate = 0;

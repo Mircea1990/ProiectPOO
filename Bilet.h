@@ -1,5 +1,4 @@
-#ifndef BILET_H
-#define BILET_H
+#pragma once
 
 #include "Film.h"
 #include "Loc.h"
@@ -17,8 +16,10 @@ private:
     Film film;
     Loc loc; // contine si sala
 public:
+    // constructor fara parametri
+    Bilet() : id(0), film(), loc() {}
 
-    // constructur cu parametri
+    // constructor cu parametri
     Bilet(const Film &f, const Loc &l);
 
     // operatori >> si <<
@@ -48,8 +49,37 @@ public:
 		this->loc.toFile(fout);
 		fout << endl;
 	}
+
+	// >> si << pentru scriere si citire din fisiere binare:
+	friend ofstream& operator<<(ofstream& fout, const Bilet& b) {
+		// bileteProcesate (static, but used for recounting when loading the Cinema), id, film, loc
+		 
+		fout.write((char*)&(Bilet::bileteProcesate), sizeof(Bilet::bileteProcesate));
+
+		fout.write((char*)&b.id, sizeof(b.id));
+
+		fout << b.film;
+
+		fout << b.loc;
+
+		return fout;
+	}
+
+	friend ifstream& operator>>(ifstream& fin, Bilet& b) {
+		// bileteProcesate (static, but used for recounting when loading the Cinema), id, film, loc
+
+		int bileteProcesateFisier = 0; // acelasi tip ca si campul static.
+		fin.read((char*)&bileteProcesateFisier, sizeof(bileteProcesateFisier));
+		if (bileteProcesateFisier > Bilet::bileteProcesate) {
+			Bilet::bileteProcesate = bileteProcesateFisier + 1;
+		}
+
+		fin.read((char*)&b.id, sizeof(b.id));
+
+		fin >> b.film;
+
+		fin >> b.loc;
+
+		return fin;
+	}
 };
-
-//int Bilet::bileteProcesate = 0;
-
-#endif //BILET_H
