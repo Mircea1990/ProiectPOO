@@ -20,8 +20,7 @@ istream &operator>>(istream &in, Client &f) {
     in >> f.id;
 
     cout << "Nume: ";
-    in.get(); // de folosit inainte de a citi un rand
-    getline(in, f.nume);
+    in.get();     getline(in, f.nume);
 
     return in;
 }
@@ -60,8 +59,7 @@ Client::operator char *() const {
 	strcat_s(s, maxLen, intToString(this->id));
 
 	strcat_s(s, maxLen, ", nume=\"");
-	strcat_s(s, maxLen, &this->nume[0]); // use the char array from the string, by passing the address of the first char
-	strcat_s(s, maxLen, "\"");
+	strcat_s(s, maxLen, &this->nume[0]); 	strcat_s(s, maxLen, "\"");
 
 	strcat_s(s, maxLen, " }");
 
@@ -83,5 +81,4 @@ bool Client::operator==(const Client &f) {
     return this->nume == f.nume && this->id == f.id;
 }
 
-// gettere si settere (toti setter-ii vor contine validari)
 

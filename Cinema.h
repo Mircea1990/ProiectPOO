@@ -22,20 +22,17 @@ protected:
 	vector<Sala*> sali;
 	vector<Bilet*> bileteEmise;
 
-	string fisierBinar;
+			string fisierBinar;
 	string fisierTextBileteEmise;
 
 public:
 
-	friend class CinemaMenu; // pentru accesul in CinemaMenu, care mosteneste cinema
-
-	// constructor fara parametri
-	Cinema() {
+	friend class CinemaMenu; 
+		Cinema() {
 		fisierBinar = "./files/cinema.bin";
 		fisierTextBileteEmise = "./files/bilete.txt";
 	}
-	// constructor cu parametri
-	Cinema(
+		Cinema(
 		const set<RulareFilm*>& filmeRulate,
 		const vector<Sala*>& sali,
 		const vector<Bilet*>& bileteEmise,
@@ -45,8 +42,7 @@ public:
 		:
 		fisierBinar(fisierBinar),
 		fisierTextBileteEmise(fisierTextBileteEmise) {
-		// de fiecare data cand cream un cinema, alocam dinamic toate filmele salile si biletele:
-		for (auto rulare : filmeRulate) {
+				for (auto rulare : filmeRulate) {
 			this->filmeRulate.insert(new RulareFilm(*rulare));
 		}
 		for (auto sala : sali) {
@@ -69,10 +65,8 @@ public:
 		}
 	}
 
-	// cast explicit catre char*, pentru afiseara pe o linie a datelor din cinema:
-	explicit operator char* () const {
-		const int maxLen = 10000; //
-		char* s = new char[maxLen + 1];
+		explicit operator char* () const {
+		const int maxLen = 10000; 		char* s = new char[maxLen + 1];
 
 		strcpy_s(s, maxLen, "Cinema { ");
 
@@ -108,8 +102,7 @@ public:
 		return s;
 	}
 
-	// functiile add, selectareRulare si selectareSala sunt metode auxiliare pentru rularea CRUD-ului
-	void add(const RulareFilm& r) {
+		void add(const RulareFilm& r) {
 		filmeRulate.insert(new RulareFilm(r));
 	}
 	void add(const Film& f, const Sala& s) {
@@ -123,22 +116,20 @@ public:
 	}
 
 	RulareFilm* selecteazaRulare() {
-		if (bileteEmise.size() == 0) {
+		if (filmeRulate.size() == 0) {
 			return nullptr;
 		}
-		// afiseaza (impreuna cu un indice) toate rularile
-		int index = 0;
+				int index = 0;
 		for (auto rulare : filmeRulate) {
-			cout << index << ". " << (char*)rulare << endl;
+			cout << index << ". " << (char*)*rulare << endl;
+			index++;
 		}
-		// selecteaza unul dintre rulari
-		do {
-			cout << "Alegeti un bilet:" << endl;
+				do {
+			cout << "Alegeti o rulare:" << endl;
 			cout << "> ";
 			cin >> index;
-		} while (index < 0 || index > bileteEmise.size());
-		// returneaza rulare
-		int i = 0;
+		} while (index < 0 || index > filmeRulate.size());
+				int i = 0;
 		for (auto rulare : filmeRulate) {
 			if (i == index) {
 				return rulare;
@@ -148,22 +139,20 @@ public:
 		return nullptr;
 	}
 	Sala* selecteazaSala() {
-		if (bileteEmise.size() == 0) {
+		if (sali.size() == 0) {
 			return nullptr;
 		}
-		// afiseaza (impreuna cu un indice) toate biletele
-		int index = 0;
+				int index = 0;
 		for (auto sala : sali) {
-			cout << index << ". " << (char*)sala << endl;
+			cout << index << ". " << (char*)*sala << endl;
+			index++;
 		}
-		// selecteaza unul dintre bilete
-		do {
-			cout << "Alegeti un bilet:" << endl;
+				do {
+			cout << "Alegeti o sala:" << endl;
 			cout << "> ";
 			cin >> index;
-		} while (index < 0 || index > bileteEmise.size());
-		// returneaza bilet
-		Sala* sala = sali.at(index);
+		} while (index < 0 || index > sali.size());
+				Sala* sala = sali.at(index);
 		return sala;
 	}
 	Loc* selecteazaLocInSala(const Sala& sala) {
@@ -176,6 +165,7 @@ public:
 				cout << "> ";
 				cin >> numarLoc;
 			} while (!sala.containsLoc(numarLoc));
+			loc = new Loc(1, numarLoc, sala);
 		}
 		else {
 			cout << "Pentru aceasta sala nu avem locuri libere" << endl;
@@ -186,26 +176,22 @@ public:
 		if (bileteEmise.size() == 0) {
 			return nullptr;
 		}
-		// afiseaza (impreuna cu un indice) toate biletele
-		int index = 0;
+				int index = 0;
 		for (auto bilet : bileteEmise) {
-			cout << index << ". " << (char*)bilet << endl;
+			cout << index << ". " << (char*)*bilet << endl;
+			index++;
 		}
-		// selecteaza unul dintre bilete
-		do {
+				do {
 			cout << "Alegeti un bilet:" << endl;
 			cout << "> ";
 			cin >> index;
 		} while (index < 0 || index > bileteEmise.size());
-		// returneaza bilet
-		Bilet* bilet = bileteEmise.at(index);
+				Bilet* bilet = bileteEmise.at(index);
 		return bilet;
 	}
 
-	// salvare si incarcare din fisiere binare
-	friend ifstream& operator>>(ifstream& in, Cinema& c) {
-		// dealoca date:
-		for (auto film : c.filmeRulate) {
+		friend ifstream& operator>>(ifstream& in, Cinema& c) {
+				for (auto film : c.filmeRulate) {
 			delete film;
 		}
 		c.filmeRulate.clear();
@@ -220,15 +206,13 @@ public:
 		}
 		c.bileteEmise.clear();
 
-		// citire date:
-		size_t size;
+				size_t size;
 
 		in.read((char*)&size, sizeof(size));
 		for (int i = 0; i < size; i++)
 		{
 			RulareFilm* rulare = new RulareFilm();
-			in >> *rulare; // supraincarcat in RulareFilm
-			c.filmeRulate.insert(rulare);
+			in >> *rulare; 			c.filmeRulate.insert(rulare);
 		}
 
 
@@ -236,8 +220,7 @@ public:
 		for (int i = 0; i < size; i++)
 		{
 			Sala* sala = new Sala();
-			in >> *sala; // supraincarcat in Sala
-			c.sali.push_back(sala);
+			in >> *sala; 			c.sali.push_back(sala);
 		}
 
 
@@ -245,8 +228,7 @@ public:
 		for (int i = 0; i < size; i++)
 		{
 			Bilet* bilet = new Bilet();
-			in >> *bilet; // supraincarcat in Bilet
-			c.bileteEmise.push_back(bilet);
+			in >> *bilet; 			c.bileteEmise.push_back(bilet);
 		}
 		return in;
 	}
@@ -257,22 +239,19 @@ public:
 		fout.write((char*)&size, sizeof(size));
 		for (auto rulare : c.filmeRulate)
 		{
-			fout << *rulare; // supraincarcat in RulareFilm
-		}
+			fout << *rulare; 		}
 
 		size = c.sali.size();
 		fout.write((char*)&size, sizeof(size));
 		for (auto sala : c.sali)
 		{
-			fout << *sala; // supraincarcat in Sala
-		}
+			fout << *sala; 		}
 
 		size = c.bileteEmise.size();
 		fout.write((char*)&size, sizeof(size));
 		for (auto bilet : c.bileteEmise)
 		{
-			fout << *bilet; // supraincarcat in Bilet
-		}
+			fout << *bilet; 		}
 
 		return fout;
 	}
@@ -280,37 +259,30 @@ public:
 	void save() {
 		ofstream fout(fisierBinar, std::ios::binary);
 		fout << *this;
+		fout.close();
 	}
 
 	void load() {
 		ifstream fin(fisierBinar, std::ios::binary);
-		// test if the file actually exists
-		if (fin.good()) { // daca fisierul este bun, deci in primul rand sa existe dintr-o bilet anterioara
-			fin >> *this;
+				if (fin.good()) { 			fin >> *this;
 		}
+		fin.close();
 	}
 
-	// Cerinta:
-	// Emitere bilet (cu selectarefilm, bilet, loc, etc) =>
-	//  biletul este salvat într-un fișier text pentru a putea fi ulterior printat
-
+			
 	void saveBilet(Bilet* b) {
 		ofstream fout(fisierTextBileteEmise, std::ios::app);
-
-		// << was used for binary files, so we used a method:
-		b->toFile(fout);
+				b->toFile(fout);
+		fout.close();
 	}
 
-	void emiteBilet() { 		// select Film rulat (contine si Sala), apoi Loc
-		cout << "Selectati datele pentru a emite un nou bilet" << endl;
+	void emiteBilet() { 				cout << "Selectati datele pentru a emite un nou bilet" << endl;
 		RulareFilm* rulare = selecteazaRulare();
 		if (rulare != nullptr) {
-			// selectam un loc in aceasta sala
-			Loc* loc = selecteazaLocInSala(rulare->getSala());
+						Loc* loc = selecteazaLocInSala(rulare->getSala());
 			if (loc != nullptr) {
 				Bilet* biletNou = new Bilet(rulare->getFilm(), *loc);
-				// salveaza locul in Cinema si pune-l in fisierul text pt printare:
-				saveBilet(biletNou); 				bileteEmise.push_back(biletNou);
+								saveBilet(biletNou); 				bileteEmise.push_back(biletNou);
 			}
 			else {
 				cout << "Nu am gasit niciun loc la acest film si aceasta sala." << endl;
@@ -318,10 +290,8 @@ public:
 		}
 	}
 
-	// Situație locuri libere (afișare în consolă sau fișier text)
-	void situatieLocuriLibere() {
-		// parcurge toate filmele rulate si afiseaza bilet si locurile libera din bilet pentru fiecare dintre ele
-		for (auto rulat : filmeRulate) {
+		void situatieLocuriLibere() {
+				for (auto rulat : filmeRulate) {
 
 			Film film = rulat->getFilm();
 			Sala sala = rulat->getSala();
@@ -338,11 +308,9 @@ public:
 		}
 	}
 
-	// o Situație filme (ce filme rulează, la ce ore, în ce săli)
-
+	
 	void situatieFilme() {
-		// afisam la modul filmul nume film ruleaza in bilet bilet si mai sunt n locuri libere
-
+		
 		for (auto rulat : filmeRulate) {
 
 			Film film = rulat->getFilm();
@@ -362,16 +330,55 @@ public:
 		}
 	}
 
-	// o Operații de tip CRUD (Create Read Update Delete)
-	// pentru toate entitățile:
-	//      Adăugare bilet, modificare  bilet,  ștergere  bilet,
-	//      adăugare  sală,  modificare  sală,  ștergere  sală,
-	//      adăugare filme, modificare film, ștergere film,
-	//      etc
+						
+		void afisRulari() {
+		cout << endl;
+		cout << "Situatia rularilor de film:" << endl;
+
+		if (filmeRulate.size() == 0) {
+			cout << "In prezent nu exista rulari" << endl;
+		}
+		else {
+			for (auto rulare : filmeRulate) {
+				cout << (char*)*rulare << endl;
+			}
+		}
+
+		cout << endl;
+	}
+	void afisSali() {
+		cout << endl;
+		cout << "Situatia salilor:" << endl;
+
+		if (sali.size() == 0) {
+			cout << "In prezent nu exista sali" << endl;
+		}
+		else {
+			for (auto sala : sali) {
+				cout << (char*)*sala << endl;
+			}
+		}
+
+		cout << endl;
+	}
+	void afisBilete() {
+		cout << endl;
+		cout << "Situatia biletelor:" << endl;
+
+		if (bileteEmise.size() == 0) {
+			cout << "In prezent nu exista bilete" << endl;
+		}
+		else {
+			for (auto bilet : bileteEmise) {
+				cout << (char*)*bilet << endl;
+			}
+		}
+
+		cout << endl;
+	}
 
 	void CRUD() {
-		// Efectueaza operatii CRUD pe cinema:
-		int option = 0;
+				int option = 0;
 
 		do {
 			cout << "-- Meniu CRUD --" << endl;
@@ -392,53 +399,50 @@ public:
 			} while (option < 1 || option > 10);
 
 			if (option == 1) {
-				// citim o noua rulare de film
-				RulareFilm rulare;
+								RulareFilm rulare;
 				cin >> rulare;
 				add(rulare);
+				afisRulari();
 			}
 			else if (option == 2) {
-				// selectam si modificam o rulare existenta
-				cout << "Selectati o rulare de film pentru a o modifica." << endl;
+								cout << "Selectati o rulare de film pentru a o modifica." << endl;
 				RulareFilm* rulare = selecteazaRulare();
 				if (rulare != nullptr) {
 					cin >> *rulare;
 				}
+				afisRulari();
 			}
 			else if (option == 3) {
 				cout << "Selectati o rulare de film pentru a o sterge." << endl;
 				RulareFilm* rulare = selecteazaRulare();
-				filmeRulate.erase(rulare); // stergem rularea din set
+				filmeRulate.erase(rulare); 				afisRulari();
 			}
 			else if (option == 4) {
-				// citim un nou bilet
-				Sala sala;
+								Sala sala;
 				cin >> sala;
-				add(sala); // salveaza datele din bilet ca un pointer Sala*
+				add(sala); 				afisSali();
 			}
 			else if (option == 5) {
-				// selectam si modificam un bilet existenta
-				cout << "Selectati o sala pentru a o modifica." << endl;
+								cout << "Selectati o sala pentru a o modifica." << endl;
 				Sala* sala = selecteazaSala();
 				if (sala != nullptr) {
 					cin >> *sala;
 				}
+				afisSali();
 			}
 			else if (option == 6) {
-				cout << "Selectati o sala pentru a o modifica." << endl;
+				cout << "Selectati o sala pentru a o sterge." << endl;
 				Sala* sala = selecteazaSala();
-				// stergem bilet din vector
-				for (int i = 0; i < sali.size(); i++) {
+								for (int i = 0; i < sali.size(); i++) {
 					if (sali[i] == sala) {
 						sali.erase(sali.begin() + i);
 						break;
 					}
 				}
+				afisSali();
 			}
 			else if (option == 7) {
-				// citim un nou bilet, care sa poate fi eliberat de catre Cinema
-				//	adica selectam o rulare film si un loc in functie de sala din rulare
-				cout << "Selectati datele pentru un nou bilet" << endl;
+												cout << "Selectati datele pentru un nou bilet" << endl;
 				RulareFilm* rulare = selecteazaRulare();
 				if (rulare != nullptr) {
 					Loc* loc = selecteazaLocInSala(rulare->getSala());
@@ -449,18 +453,18 @@ public:
 						cout << "Nu am gasit niciun loc la acest film si aceasta sala." << endl;
 					}
 				}
+				afisBilete();
 			}
 			else if (option == 8) {
-				// selectam si modificam un bilet existent
-				cout << "Selectati o rulare de film pentru a o modifica." << endl;
+								cout << "Selectati un bilet pentru a-l modifica." << endl;
 				Bilet* bilet = selecteazaBilet();
 				if (bilet != nullptr) {
 					cin >> *bilet;
 				}
+				afisBilete();
 			}
 			else if (option == 9) {
-				// stergem un bilet existent
-				cout << "Selectati un bilet pentru a-l sterge." << endl;
+								cout << "Selectati un bilet pentru a-l sterge." << endl;
 				Bilet* bilet = selecteazaBilet();
 				for (int i = 0; i < bileteEmise.size(); i++) {
 					if (bileteEmise[i] == bilet) {
@@ -468,31 +472,50 @@ public:
 						break;
 					}
 				}
+				afisBilete();
 			}
 		} while (option != 10);
 	}
 
-	// gettere si settere:
-
+	
 	const set<RulareFilm*>& getFilmeRulate() const {
 		return filmeRulate;
+	}
+
+	void setFilmeRulate(const set<RulareFilm*>& filmeRulate) {
+		Cinema::filmeRulate = filmeRulate;
 	}
 
 	const vector<Sala*>& getSali() const {
 		return sali;
 	}
 
+	void setSali(const vector<Sala*>& sali) {
+		Cinema::sali = sali;
+	}
+
 	const vector<Bilet*>& getBileteEmise() const {
 		return bileteEmise;
+	}
+
+	void setBileteEmise(const vector<Bilet*>& bileteEmise) {
+		Cinema::bileteEmise = bileteEmise;
 	}
 
 	const string& getFisierBinar() const {
 		return fisierBinar;
 	}
 
+	void setFisierBinar(const string& fisierBinar) {
+		Cinema::fisierBinar = fisierBinar;
+	}
+
 	const string& getFisierTextBileteEmise() const {
 		return fisierTextBileteEmise;
 	}
 
+	void setFisierTextBileteEmise(const string& fisierTextBileteEmise) {
+		Cinema::fisierTextBileteEmise = fisierTextBileteEmise;
+	}
 };
 

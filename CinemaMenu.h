@@ -4,22 +4,17 @@
 
 class CinemaMenu : public Cinema {
 private:
-	/// membrii mosteniti din Cinema:
-	using Cinema::filmeRulate;
+		using Cinema::filmeRulate;
 	using Cinema::sali;
 	using Cinema::bileteEmise;
 	using Cinema::fisierBinar;
 	using Cinema::fisierTextBileteEmise;
-	bool loadOnRun; // true daca Cinema ar trebui sa citeasca datele initiale dintr-un fisier binar si false altfel
-public:
-	/// METODE mostenite din Cinema
-	// Comenzile implementate in Cinema:
-	using Cinema::emiteBilet;
+	bool loadOnRun; public:
+			using Cinema::emiteBilet;
 	using Cinema::situatieLocuriLibere;
 	using Cinema::situatieFilme;
 	using Cinema::CRUD;
-	// Pentru salvarea tuturor datelor din cinema pe disc (fisiere binare:
-	using Cinema::save;
+		using Cinema::save;
 	using Cinema::load;
 
 	CinemaMenu() : Cinema() {
@@ -49,8 +44,7 @@ public:
 		int option;
 		bool isRunning = true;
 
-		// load the Cinema:
-		if (loadOnRun) {
+				if (loadOnRun) {
 			load();
 		}
 
@@ -63,8 +57,7 @@ public:
 			switch (option) {
 			case 1:
 				emiteBilet();
-				save(); // save the Cinema data, la locatie din campul fisierBinar
-				break;
+				save(); 				break;
 			case 2:
 				situatieLocuriLibere();
 				break;
@@ -73,14 +66,12 @@ public:
 				break;
 			case 4:
 				CRUD();
-				save(); // save the Cinema data, la locatie din campul fisierBinar
-				break;
+				save(); 				break;
 			case 5:
 				isRunning = false;
 				break;
 			default:
-				continue; // continue while to the next step
-			}
+				continue; 			}
 		}
 	}
 };

@@ -64,5 +64,4 @@ Bilet::operator char *() {
     return s;
 }
 
-// campul static
 int Bilet::bileteProcesate = 0;

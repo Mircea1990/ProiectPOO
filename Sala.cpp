@@ -1,6 +1,7 @@
-#pragma once
 
 #include "Sala.h"
+
+#pragma once
 
 #include "util.h"
 
@@ -52,8 +53,7 @@ Sala Sala::operator=(const Sala &f) {
     }
     if (f.numarLocuri > 0) {
         if (f.numarLocuriLibere > 0) {
-            // le copiem
-            this->locuriLibere = new int[f.numarLocuriLibere];
+                        this->locuriLibere = new int[f.numarLocuriLibere];
             for (int i = 0; i < f.numarLocuriLibere; i++) {
                 this->locuriLibere[i] = locuriLibere[i];
             }
@@ -79,7 +79,8 @@ istream &operator>>(istream &in, Sala &f) {
     cin >> f.numarLocuriLibere;
 
     if (f.numarLocuriLibere >= f.numarLocuri) {
-        // add all of them
+                f.numarLocuriLibere = f.numarLocuri;
+
         f.locuriLibere = new int[f.numarLocuri];
         for (int i = 0; i < f.numarLocuri; ++i) {
             f.locuriLibere[i] = i;
@@ -101,8 +102,7 @@ ostream &operator<<(ostream &out, const Sala &f) {
 
     out << "Id: " << f.id << endl;
     out << "Numar locuri: " << f.numarLocuri << endl;
-    // afisam locurile libere
-    out << "Locurile libere sunt: ";
+        out << "Locurile libere sunt: ";
     for (int i = 0; i < f.numarLocuriLibere; i++) {
         cout << f.locuriLibere[i] << ' ';
     }
@@ -112,8 +112,7 @@ ostream &operator<<(ostream &out, const Sala &f) {
 }
 
 Sala Sala::operator++() {
-    // adaugam un loc nou (neocupat)
-        int *vechi = this->locuriLibere;
+            int *vechi = this->locuriLibere;
     this->numarLocuri++;
     this->numarLocuriLibere++;
 
@@ -129,8 +128,7 @@ Sala Sala::operator++() {
 Sala Sala::operator++(int) {
     Sala precedent = *this;
 
-    // adaugam un loc nou (neocupat)
-        int *vechi = this->locuriLibere;
+            int *vechi = this->locuriLibere;
     this->numarLocuri++;
     this->numarLocuriLibere++;
 
@@ -140,8 +138,7 @@ Sala Sala::operator++(int) {
     }
     this->locuriLibere[this->numarLocuriLibere - 1] = this->numarLocuriLibere - 1;
 
-    // returnam valoarea precedenta a obiectului
-    return precedent;
+        return precedent;
 }
 
 Sala Sala::operator+(int extraMinutes) {
@@ -149,8 +146,7 @@ Sala Sala::operator+(int extraMinutes) {
         return nou;
 }
 
-Sala::operator char *() const { // explicit
-    const int maxLen = 1000;
+Sala::operator char *() const {     const int maxLen = 1000;
     char *s = new char[maxLen + 1];
 
     strcpy_s(s, maxLen, "Sala { id=");

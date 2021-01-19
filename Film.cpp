@@ -84,8 +84,7 @@ Film::operator char *() const {
 
     strcat_s(str, maxLen,  "}");
 
-	return str; // return the entire object as a char*
-}
+	return str; }
 
 Film Film::operator!()
 {

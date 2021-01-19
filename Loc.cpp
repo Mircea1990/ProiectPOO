@@ -1,3 +1,4 @@
+
 #include "Loc.h"
 #include "Sala.h"
 #include "util.h"
@@ -13,8 +14,7 @@ istream &operator>>(istream &in, Loc &f) {
     in >> f.id;
 
     cout << "Numar: ";
-    // pentru initializarea dupa constructor a const int numar:
-    int *numar = const_cast<int *>(&f.numar);
+        int *numar = const_cast<int *>(&f.numar);
     int numarNou;
     in >> numarNou;
     *numar = numarNou;
@@ -52,8 +52,7 @@ Loc Loc::operator++(int) {
         return *this;
 }
 
-Loc::operator char *() const { // explicit
-	const int maxLen = 1000;
+Loc::operator char *() const { 	const int maxLen = 1000;
 	char *str = new char[maxLen];
 	strcpy_s(str, maxLen, "Loc { id=");
 	strcat_s(str, maxLen, intToString(id));
@@ -67,8 +66,7 @@ Loc::operator char *() const { // explicit
 
 	strcat_s(str, maxLen, " }");
 
-	return str; // return the entire object as a char*
-}
+	return str; }
 
 Loc Loc::operator!()
 {
@@ -93,4 +91,3 @@ Loc::Loc() : id(0), numar(-1), sala() {
 
 }
 
-// gettere si settere (toti setter-ii vor contine validari)

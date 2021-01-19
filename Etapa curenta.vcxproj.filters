@@ -45,6 +45,18 @@
     <ClCompile Include="CinemaMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LocuriLibereSala.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="our_iterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sala2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ISala.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bilet.h">
@@ -72,6 +84,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CinemaMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocuriLibereSala.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="our_iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sala2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISala.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
